@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns="http://tizen.org/ns/packages" package="com.samsung.dali-simple-test" version="0.0.1" api-version="2.4" install-location="internal-only">
-<!-- NOTE THAT ALL LEADING WHITESPACE IN THIS FILE MUST BE TABS, NOT SPACES. APPS WITH LEADING SPACES WILL SILENTLY FAIL TO RUN ON A TARGET DEVICE. -->
-	<label>DALi Simple Test</label>
-	<description>DALi simple accessibility smoke test</description>
-	<ui-application appid="com.samsung.dali-simple-test" exec="/usr/apps/com.samsung.dali-simple-test/bin/dali-simple-test" nodisplay="false" multiple="false" type="c++app" taskmanage="true">
-		<label>DALi Simple Test</label>
-	</ui-application>
-</manifest>

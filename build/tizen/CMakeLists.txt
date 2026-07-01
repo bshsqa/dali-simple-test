@@ -6,6 +6,8 @@ endif()
 
 project(dali-simple-test CXX)
 
+set(APP_NAME accessibility-refactoring-test.example)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -71,15 +73,15 @@ include_directories(
 
 link_directories(${LIB_DIR})
 
-add_executable(dali-simple-test
-  ${ROOT_SRC_DIR}/src/accessibility-smoke.cpp
+add_executable(${APP_NAME}
+  ${ROOT_SRC_DIR}/src/accessibility-refactoring-test.example.cpp
 )
 
-target_link_libraries(dali-simple-test
+target_link_libraries(${APP_NAME}
   ${REQUIRED_LIBS}
 )
 
-install(TARGETS dali-simple-test DESTINATION ${BINDIR})
+install(TARGETS ${APP_NAME} DESTINATION ${BINDIR})
 
 message(" Folder DALI_APP_DIR : [${BINDIR}]")
 message(" Current Build Tizen : [${TIZEN}]")

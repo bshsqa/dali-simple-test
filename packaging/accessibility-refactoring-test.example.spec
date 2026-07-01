@@ -1,5 +1,5 @@
-Name:       com.samsung.dali-simple-test
-Summary:    DALi simple test application
+Name:       accessibility-refactoring-test.example
+Summary:    DALi accessibility refactoring test application
 Version:    0.1.0
 Release:    1
 Group:      System/Libraries
@@ -20,12 +20,12 @@ BuildRequires:  dali2-adaptor-integration-devel
 BuildRequires:  dali2-toolkit-integration-devel
 
 %description
-DALi simple test application for focused accessibility refactoring validation.
+DALi accessibility refactoring test application.
 
 %prep
 %setup -q
 
-%define dali_app_ro_dir       %TZ_SYS_RO_APP/com.samsung.dali-simple-test/
+%define dali_app_ro_dir       %TZ_SYS_RO_APP/accessibility-refactoring-test.example/
 %define dali_xml_file_dir     %TZ_SYS_RO_PACKAGES
 %define dali_app_exe_dir      %{dali_app_ro_dir}/bin/
 
@@ -62,7 +62,7 @@ exit 0
 exit 0
 
 %files
-%manifest com.samsung.dali-simple-test.manifest
+%manifest accessibility-refactoring-test.example.manifest
 %defattr(-,root,root,-)
-%{dali_app_exe_dir}/dali-simple-test
+%{dali_app_exe_dir}/accessibility-refactoring-test.example
 %{dali_xml_file_dir}/%{name}.xml

@@ -46,5 +46,4 @@ CMakeFiles/
 Makefile
 cmake_install.cmake
 install_manifest.txt
-dali-simple-test
-dali-accessibility-smoke
+accessibility-refactoring-test.example

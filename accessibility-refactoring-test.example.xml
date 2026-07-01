@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://tizen.org/ns/packages" package="accessibility-refactoring-test.example" version="0.0.1" api-version="2.4" install-location="internal-only">
+<!-- NOTE THAT ALL LEADING WHITESPACE IN THIS FILE MUST BE TABS, NOT SPACES. APPS WITH LEADING SPACES WILL SILENTLY FAIL TO RUN ON A TARGET DEVICE. -->
+	<label>Accessibility Refactoring Test</label>
+	<description>DALi accessibility refactoring test</description>
+	<ui-application appid="accessibility-refactoring-test.example" exec="/usr/apps/accessibility-refactoring-test.example/bin/accessibility-refactoring-test.example" nodisplay="false" multiple="false" type="c++app" taskmanage="true">
+		<label>Accessibility Refactoring Test</label>
+	</ui-application>
+</manifest>
