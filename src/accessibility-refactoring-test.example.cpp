@@ -55,8 +55,11 @@ public:
     std::cout << label << '\n';
     std::cout << "  name: " << accessible->GetName() << '\n';
     std::cout << "  description: " << accessible->GetDescription() << '\n';
+    std::cout << "  value: " << accessible->GetValue() << '\n';
     std::cout << "  role: " << static_cast<uint32_t>(accessible->GetRole()) << '\n';
     std::cout << "  states: 0x" << std::hex << accessible->GetStates().GetRawData64() << std::dec << '\n';
+    std::cout << "  hidden: " << (accessible->IsHidden() ? "true" : "false") << '\n';
+    std::cout << "  relations: " << accessible->GetRelationSet().size() << '\n';
     std::cout << "  reading-info: 0x" << std::hex << DevelControl::GetAccessibilityReadingInfoTypeRaw(control) << std::dec << '\n';
 
     const auto attributes = accessible->GetAttributes();
@@ -129,6 +132,7 @@ private:
     button.SetProperty(DevelControl::Property::ACCESSIBILITY_ROLE, Dali::Toolkit::Accessibility::Role::BUTTON);
     button.SetProperty(DevelControl::Property::ACCESSIBILITY_NAME, "Primary action");
     button.SetProperty(DevelControl::Property::ACCESSIBILITY_DESCRIPTION, "Triggers the mock AT-SPI action path");
+    button.SetProperty(DevelControl::Property::AUTOMATION_ID, "primary-action");
     button.SetAccessibilityState(Dali::Toolkit::Accessibility::State::ENABLED, true);
     DevelControl::AppendAccessibilityAttribute(button, "automationId", "primary-action");
     DevelControl::AppendAccessibilityRelation(button, title, Dali::Toolkit::Accessibility::RelationType::LABELLED_BY);
@@ -147,12 +151,78 @@ private:
     check.SetProperty(DevelControl::Property::ACCESSIBILITY_NAME, "Selected state option");
     check.SetAccessibilityState(Dali::Toolkit::Accessibility::State::ENABLED, true);
     check.SetAccessibilityState(Dali::Toolkit::Accessibility::State::CHECKED, true);
+    DevelControl::AppendAccessibilityRelation(check, title, Dali::Toolkit::Accessibility::RelationType::LABELLED_BY);
     DevelControl::SetAccessibilityReadingInfoTypeRaw(check, ReadingMask());
     window.Add(check);
+
+    auto progress = Dali::Toolkit::TextLabel::New("Progress 60%");
+    progress.SetProperty(Dali::Actor::Property::NAME, "Progress");
+    progress.SetProperty(Dali::Actor::Property::PARENT_ORIGIN, Dali::ParentOrigin::TOP_LEFT);
+    progress.SetProperty(Dali::Actor::Property::PIVOT, Dali::Pivot::TOP_LEFT);
+    progress.SetProperty(Dali::Actor::Property::POSITION, Dali::Vector2(40.0f, 360.0f));
+    progress.SetProperty(Dali::Actor::Property::SIZE, Dali::Vector2(320.0f, 64.0f));
+    progress.SetProperty(Dali::Toolkit::TextLabel::Property::TEXT_COLOR, Dali::Color::BLACK);
+    progress.SetProperty(DevelControl::Property::ACCESSIBILITY_ROLE, Dali::Toolkit::Accessibility::Role::PROGRESS_BAR);
+    progress.SetProperty(DevelControl::Property::ACCESSIBILITY_NAME, "Loading progress");
+    progress.SetProperty(DevelControl::Property::ACCESSIBILITY_DESCRIPTION, "Progress value exposed to accessibility clients");
+    progress.SetProperty(DevelControl::Property::ACCESSIBILITY_VALUE, "60%");
+    progress.SetAccessibilityState(Dali::Toolkit::Accessibility::State::ENABLED, true);
+    progress.SetAccessibilityState(Dali::Toolkit::Accessibility::State::BUSY, true);
+    DevelControl::SetAccessibilityReadingInfoTypeRaw(progress, ReadingMask());
+    window.Add(progress);
+
+    auto dialog = Dali::Toolkit::TextLabel::New("Modal dialog");
+    dialog.SetProperty(Dali::Actor::Property::NAME, "Dialog");
+    dialog.SetProperty(Dali::Actor::Property::PARENT_ORIGIN, Dali::ParentOrigin::TOP_LEFT);
+    dialog.SetProperty(Dali::Actor::Property::PIVOT, Dali::Pivot::TOP_LEFT);
+    dialog.SetProperty(Dali::Actor::Property::POSITION, Dali::Vector2(400.0f, 140.0f));
+    dialog.SetProperty(Dali::Actor::Property::SIZE, Dali::Vector2(280.0f, 80.0f));
+    dialog.SetProperty(Dali::Toolkit::TextLabel::Property::TEXT_COLOR, Dali::Color::BLACK);
+    dialog.SetProperty(DevelControl::Property::ACCESSIBILITY_ROLE, Dali::Toolkit::Accessibility::Role::DIALOG);
+    dialog.SetProperty(DevelControl::Property::ACCESSIBILITY_NAME, "Modal dialog");
+    dialog.SetProperty(DevelControl::Property::ACCESSIBILITY_DESCRIPTION, "Modal object exposed through accessibility metadata");
+    dialog.SetProperty(DevelControl::Property::ACCESSIBILITY_IS_MODAL, true);
+    dialog.SetAccessibilityState(Dali::Toolkit::Accessibility::State::ENABLED, true);
+    DevelControl::SetAccessibilityReadingInfoTypeRaw(dialog, ReadingMask());
+    window.Add(dialog);
+
+    auto list = Dali::Toolkit::TextLabel::New("Scrollable list");
+    list.SetProperty(Dali::Actor::Property::NAME, "ScrollableList");
+    list.SetProperty(Dali::Actor::Property::PARENT_ORIGIN, Dali::ParentOrigin::TOP_LEFT);
+    list.SetProperty(Dali::Actor::Property::PIVOT, Dali::Pivot::TOP_LEFT);
+    list.SetProperty(Dali::Actor::Property::POSITION, Dali::Vector2(400.0f, 250.0f));
+    list.SetProperty(Dali::Actor::Property::SIZE, Dali::Vector2(280.0f, 80.0f));
+    list.SetProperty(Dali::Toolkit::TextLabel::Property::TEXT_COLOR, Dali::Color::BLACK);
+    list.SetProperty(DevelControl::Property::ACCESSIBILITY_ROLE, Dali::Toolkit::Accessibility::Role::LIST);
+    list.SetProperty(DevelControl::Property::ACCESSIBILITY_NAME, "Scrollable list");
+    list.SetProperty(DevelControl::Property::ACCESSIBILITY_DESCRIPTION, "Scrollable flag exposed to accessibility clients");
+    list.SetProperty(DevelControl::Property::ACCESSIBILITY_SCROLLABLE, true);
+    list.SetAccessibilityState(Dali::Toolkit::Accessibility::State::ENABLED, true);
+    DevelControl::SetAccessibilityReadingInfoTypeRaw(list, ReadingMask());
+    window.Add(list);
+
+    auto hidden = Dali::Toolkit::TextLabel::New("Hidden notification");
+    hidden.SetProperty(Dali::Actor::Property::NAME, "HiddenNotification");
+    hidden.SetProperty(Dali::Actor::Property::PARENT_ORIGIN, Dali::ParentOrigin::TOP_LEFT);
+    hidden.SetProperty(Dali::Actor::Property::PIVOT, Dali::Pivot::TOP_LEFT);
+    hidden.SetProperty(Dali::Actor::Property::POSITION, Dali::Vector2(400.0f, 360.0f));
+    hidden.SetProperty(Dali::Actor::Property::SIZE, Dali::Vector2(280.0f, 64.0f));
+    hidden.SetProperty(Dali::Toolkit::TextLabel::Property::TEXT_COLOR, Dali::Color::BLACK);
+    hidden.SetProperty(DevelControl::Property::ACCESSIBILITY_ROLE, Dali::Toolkit::Accessibility::Role::NOTIFICATION);
+    hidden.SetProperty(DevelControl::Property::ACCESSIBILITY_NAME, "Hidden notification");
+    hidden.SetProperty(DevelControl::Property::ACCESSIBILITY_DESCRIPTION, "Hidden accessibility object for mock inspection");
+    hidden.SetProperty(DevelControl::Property::ACCESSIBILITY_HIDDEN, true);
+    hidden.SetAccessibilityState(Dali::Toolkit::Accessibility::State::ENABLED, true);
+    DevelControl::SetAccessibilityReadingInfoTypeRaw(hidden, ReadingMask());
+    window.Add(hidden);
 
     mClient.Dump("button before action", button);
     mClient.Activate(button);
     mClient.Dump("check box", check);
+    mClient.Dump("progress", progress);
+    mClient.Dump("dialog", dialog);
+    mClient.Dump("scrollable list", list);
+    mClient.Dump("hidden notification", hidden);
 
     auto timer = Dali::Timer::New(250u);
     timer.TickSignal().Connect(this, &AccessibilitySmoke::Quit);
